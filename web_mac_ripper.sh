@@ -1,6 +1,14 @@
 #!/bin/bash
 
-MAC_INPUT=$(cat)
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   #${BASH_SOURCE[0]} A built in var that represents the currently executing script. THIS SCRIPT below is being executed as a subprocess in the python webserver. If I did echo ${BASH_SOURCE[0]} it should literally return web_mac_ripper.sh --- because of this, you can use ${BASH_SOURCE[0]} to help you find the currently executed script with other commands like dirname. 
+#The above command is basically magic. In english its saying, change the directory to the directory of "${BASH_SOURCE[0]}" (aka my script) then print that working directory and store it in variable SCRIPT=DIR. dirname prints the full path of a file 
+#Now we have the directory of the script NO MATTER WHICH MACHINE you've placed it on. No need to modify the script. Fully portable. 
+
+original_mac_list="$SCRIPT_DIR/maclist.txt"
+
+
+MAC_INPUT=$(cat)  #this is "filling" the variable with the stdin
 
 original_mac_list=/home/josec/projects/Mac-Attack/maclist2.txt
 

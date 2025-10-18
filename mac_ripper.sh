@@ -1,5 +1,10 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   #${BASH_SOURCE[0]} A built in var. Basically gives a path to the currently executing script. THIS SCRIPT is being executed as a subprocess in the python webserver. If I did echo ${BASH_SOURCE[0]} it should literally return 
+original_mac_list="$SCRIPT_DIR/maclist.txt"
+
+
+
 original_mac_list=/home/josec/projects/Mac-Attack/maclist.txt
 
 #mac_addr_regex='\s*[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|([0-9A-Fa-f]{2}\-){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\s*' #use with grep -E it will capture most mac addresses with or without whitespace in front or behind. 
