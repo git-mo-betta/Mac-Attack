@@ -1,0 +1,57 @@
+There are three layers going on here. 
+
+Top layer is the fronend. This is where the information will be pasted. HTML and probably some javascipt
+<!DOCTYPE html>
+<html>
+  <body>
+    <form method="POST" action="/maclookup">
+      <textarea name="mac_input" rows="10" cols="50"></textarea><br>
+      <button type="submit">Lookup Manufacturer</button>
+    </form>
+  </body>
+</html>
+Above is all HTML and will work but adding javascript can help with input validation and other stuff. 
+
+Backend, this well recieve the POST from my frontend then send it to my script via some sort of app routing 
+from flask import Flask, request
+import subprocess
+
+app = Flask(__name__)
+
+@app.route("/maclookup", methods=["POST"])
+def mac_lookup():
+    macs = request.form["mac_input"]
+    result = subprocess.run(
+        ["./your_script.sh"],
+        input=macs,
+        text=True,
+        capture_output=True
+    )
+    return f"<pre>{result.stdout}</pre>"
+
+
+
+
+Last layer: Bash script that will be triggered by essentially replacing the sdtin with a VAR that will be filled with the information routed to it. 
+
+
+if [ -n "$MAC_INPUT" ]; then
+  mapfile -t mac_array < <(grep -Po "$mac_addr_regex" <<< "$MAC_INPUT")
+else
+  mapfile -t mac_array < <(grep -Po "$mac_addr_regex" "$original_mac_list")
+fi
+
+
+
+This is how mac addresses get from the poster to the Bash script 
+-Someone posts them into the webpage and hits send 
+-That send does a POST that sends the MAC addresses to the FLASK backend
+-FLASK takes the input from the frontend and places it into a variable with line right here
+-------macs = request.form["mac_input"]--------------
+-FLASK backend routes that variable to bash by RUNNING THE SCRIPT as a sub process 
+-----result = subprocess.run(
+        ["/home/josec/projects/scripts/mac_ripper.sh"],
+Part of this is inputting the variable and in the proper format (text), and lastly capturing the rest of the output, THIS IS IMPORTANT, the bash script is running as a subprocess in python! the output is your answers and they need to make it back to the webpage! and possibly other places. Gotta figure that out.  
+        input=macs,
+        text=True,
+        capture_output=True

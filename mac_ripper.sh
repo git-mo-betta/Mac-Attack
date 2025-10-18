@@ -42,7 +42,7 @@ done
 manufacturer=()  # example for two: "JETCELL, INC." "Cisco Systems, Inc"
 for y in ${new_array[@]}; do
   results=$(curl -s https://api.maclookup.app/v2/macs/$y?apiKey=01k7nkx8fy86g8aybnv8wd6qz101k7nm1hfcghrgpa87be7cn13bqwt12bs8p1nb | jq '.company') 
-  echo "Mac address is $y and the manufacturer is $results"
+  echo "Per Mac address $y the manufacturer is $results"
   #manufacturer+=($results)
 done
 
