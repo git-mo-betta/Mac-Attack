@@ -15,9 +15,14 @@ def serve_index():                          #static directory needs to be create
 @app.route("/maclookup", methods=["POST"])
 def mac_lookup():
     macs = request.form["mac_input"]  #This pulling the POST from the front end and placing into a python var named "macs"
+    
+    script_path = os.path.join(os.path.dirname(__file__), "web_mac_ripper.sh") #This REPLACED line 23 A FANTASTIC LINE ! No matter which machine you're on, it knows the path of the script as long as the script is in the same dir as the python webserver. I made this for GIT pulldowns
+    
     result = subprocess.run(
-        ["/home/josec/projects/scripts/web_mac_ripper.sh"],  #full path of the script. ./script would work if in the same dir. 
+        
+        #["/home/josec/projects/Mac-Attack/web_mac_ripper.sh"],  #full path of the script. ./script would work if in the same dir. 
         #["/home/josec/projects/scripts/test.sh"], this was a test
+        [script_path],   #referencing the new var line 19
         input=macs,
         text=True,
         capture_output=True

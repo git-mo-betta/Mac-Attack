@@ -1,6 +1,6 @@
 #!/bin/bash
 
-original_mac_list=/home/josec/projects/scripts/maclist.txt
+original_mac_list=/home/josec/projects/Mac-Attack/maclist.txt
 
 #mac_addr_regex='\s*[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|([0-9A-Fa-f]{2}\-){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\s*' #use with grep -E it will capture most mac addresses with or without whitespace in front or behind. 
 mac_addr_regex='[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|[0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){5}|[0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5}'
