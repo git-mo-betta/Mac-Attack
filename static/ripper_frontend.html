@@ -9,7 +9,16 @@
     <form method="POST" action="/maclookup">    <!---change this to <form method="POST" action="http://10.0.0.x:5000/maclookup"> when I decide to place on LAN----->
       <textarea name="mac_input" rows="20" cols="80"></textarea><br>
       <button type="submit">Lookup Manufacturer</button>
-    </form>
+      <button type="button" id="pasteBtn">Paste MACs</button>
+  </form>
+    
+    <script>
+    document.getElementById("pasteBtn").addEventListener("click", () => {
+      navigator.clipboard.readText().then(text => {
+        document.querySelector("textarea[name='mac_input']").value = text;
+      });
+    });
+    </script>
   </body>
 </html>
 
