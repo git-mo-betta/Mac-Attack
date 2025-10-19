@@ -39,7 +39,7 @@ def mac_lookup():
 
 if __name__ == "__main__":  #Basically means "if you run this directly" an example of indirectly would be running it as a module
     # Configuration from environment or defaults
-    host = os.environ.get("FLASK_RUN_HOST", "127.0.0.1") # I can set this to the ip address of the device hosting the webserver on the LAN if I want. 
+    host = os.environ.get("FLASK_RUN_HOST", "10.0.0.62") # I can set this to the ip address of the device hosting the webserver on the LAN if I want. 
     port = int(os.environ.get("FLASK_RUN_PORT", 5000))
     ssl_cert = os.environ.get("SSL_CERT_FILE")
     ssl_key  = os.environ.get("SSL_KEY_FILE")
