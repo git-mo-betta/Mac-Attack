@@ -12,7 +12,7 @@ def serve_index():                          #static directory needs to be create
                                #I got a 404 because I never moved ripper fronend into the static dir. As soon as I did that it worked. 
 
 
-@app.route("/maclookup", methods=["POST"])
+@app.route("/maclookup", methods=["POST"]) #html form URL MUST MATCH THIS URL 
 def mac_lookup():
     macs = request.form["mac_input"]  #This pulling the POST from the front end and placing into a python var named "macs"
     
@@ -39,7 +39,7 @@ def mac_lookup():
 
 if __name__ == "__main__":  #Basically means "if you run this directly" an example of indirectly would be running it as a module
     # Configuration from environment or defaults
-    host = os.environ.get("FLASK_RUN_HOST", "127.0.0.1")
+    host = os.environ.get("FLASK_RUN_HOST", "10.0.0.175") # I can set this to the ip address of the device hosting the webserver on the LAN if I want. 
     port = int(os.environ.get("FLASK_RUN_PORT", 5000))
     ssl_cert = os.environ.get("SSL_CERT_FILE")
     ssl_key  = os.environ.get("SSL_KEY_FILE")
