@@ -29,7 +29,7 @@ def mac_lookup():
     )
 #    return f"<pre>{result.stdout}</pre>"
     return f"""
-<pre style="font-family:monospace; background-color:#f4f4f4; padding:10px; border-radius:5px; white-space:pre-wrap;">
+<pre style="font-family:monospace; background-color:#f4f4f4; padding:10px; border-radius:5px; font-size:24px; white-space:pre-wrap;">
 {result.stdout}
 </pre>
 """
