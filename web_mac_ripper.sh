@@ -8,18 +8,18 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   #${BASH_SOURCE[0]} 
 original_mac_list="$SCRIPT_DIR/maclist.txt"
 
 
-MAC_INPUT=$(cat)  #this is "filling" the variable with the stdin
+MAC_INPUT=$(cat)  #this is "filling" the variable with the stdin---command substitution. I did a cool experiment with this $(cat) echo "hello" captures and spits it back out.
 
 original_mac_list=/home/josec/projects/Mac-Attack/maclist2.txt
 
 #mac_addr_regex='\s*[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|([0-9A-Fa-f]{2}\-){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\s*' #use with grep -E it will capture most mac addresses with or without whitespace in front or behind. 
-mac_addr_regex='[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|[0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){5}|[0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5}'
-
+mac_addr_regex='[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|[0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){5}|[0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5}' #More strict still testing which one is best
+aaaa.aaaa.aaaa 
 
 
 #First step is to grab the list of Macs from the webpage input and place it into an array, REGARDLESS OF MAC FORMAT. 
 if [ -n "$MAC_INPUT" ]; then  #if the string is not empty 
-  mapfile -t mac_array < <(grep -Po "$mac_addr_regex" <<< "$MAC_INPUT") #Take the variable MAC_INPUT as stdin, run thru the regex and place in array
+  mapfile -t mac_array < <(grep -Po "$mac_addr_regex" <<< "$MAC_INPUT") #mapfile is cool but weird as it auto adds a newline so I need -t. mapfile adds stdin into an array in this case, the stdin from MAC_INPUT, The original VAR passed down from many generations.-----------Take the variable MAC_INPUT as stdin, run thru the regex and place in array
 else
    echo "everything failed! go home!"
    #mapfile -t mac_array < <(grep -Po "$mac_addr_regex" "$original_mac_list") #if not take your stdin from the file???
@@ -35,9 +35,9 @@ fi
 #this step, we rip away the delimiter, making all macs just 12 digits with nothing inbetween from xxxx.xxxx.xxxx to xxxxxxxxxxxx, then we add the proper delimiter :'s
 new_array=() #example for two: 00:d0:2b:c7:e9:cc 00:30:b6:67:2a:00
 for x in ${mac_array[@]}; do
-  no_delim=$(echo "$x" | tr -d '.:-') 
+  no_delim=$(echo "$x" | tr -d '.:-') #tr (translate) takes stdin and lets me manipulate, in this case, delete stuff.
   #new_array+=($no_delim) This is just here to test the output at this point. As an example, 00d02bc7e9cc 0030b6672a00 00d0ffe8c40a etc.
-  format=$(echo "$no_delim" | sed 's/\(..\)/\1:/g; s/:$//') #sed logic explained below
+  format=$(echo "$no_delim" | sed 's/\(..\)/\1:/g; s/:$//') #Adding the proper delimiters with sed. sed logic explained below
   new_array+=($format)
 done
 #echo ${new_array[@]}
@@ -54,7 +54,7 @@ done
 
 manufacturer=()  # example for two: "JETCELL, INC." "Cisco Systems, Inc"
 for y in ${new_array[@]}; do
-  results=$(curl -s https://api.maclookup.app/v2/macs/$y?apiKey=01k7nkx8fy86g8aybnv8wd6qz101k7nm1hfcghrgpa87be7cn13bqwt12bs8p1nb | jq '.company') 
+  results=$(curl -s https://api.maclookup.app/v2/macs/$y?apiKey=01k7nkx8fy86g8aybnv8wd6qz101k7nm1hfcghrgpa87be7cn13bqwt12bs8p1nb | jq '.company') #jq is like a grep for json stuff 
   echo "Mac address is $y and the manufacturer is $results"
   #manufacturer+=($results)
 done
@@ -64,7 +64,6 @@ done
 
 
 #echo ${manufacturer[3]}
-
 
 #final_product=()
 #for a in ${mac_array[@]}; do 
