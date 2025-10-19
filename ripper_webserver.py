@@ -27,14 +27,17 @@ def mac_lookup():
         text=True,
         capture_output=True
     )
-    return f"<pre>{result.stdout}</pre>"
-#    return f"""
-#<pre style="font-family:monospace; background-color:#f4f4f4; padding:10px; border-radius:5px; white-space:pre-wrap;">
-#{result.stdout}
-#</pre>
-#"""
+#    return f"<pre>{result.stdout}</pre>"
+    return f"""
+<pre style="font-family:monospace; background-color:#f4f4f4; padding:10px; border-radius:5px; white-space:pre-wrap;">
+{result.stdout}
+</pre>
+"""
 
-
+#This is for my future about page for a quick explanation. I may build dynamic routing if I need more pages but idk if I want to get crazy.
+#@app.route("/about")
+#def serve_about():
+#    return send_from_directory("static", "about.html")  #--send_from_directory is a built in flask function that is as readable as can be.  
 
 
 if __name__ == "__main__":  #Basically means "if you run this directly" an example of indirectly would be running it as a module
